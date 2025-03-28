@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Progress</title>
+    <style>
+        #trainingLogs {
+            white-space: pre-wrap; /* Preserves line breaks */
+            font-family: monospace;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            height: 300px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+    <h1>Training Progress</h1>
+    <div id="trainingLogs">Waiting for training to start...</div>
+
+{#    <script>#}
+{#        // Establish an SSE connection to the Django server#}
+{#        const eventSource = new EventSource('/training_stream/');#}
+{##}
+{#        eventSource.onmessage = function (event) {#}
+{#            // Append new training log to the #trainingLogs div#}
+{#            const log = event.data;#}
+{#            const logContainer = document.getElementById('trainingLogs');#}
+{#            logContainer.innerHTML += log + '\n';#}
+{#            logContainer.scrollTop = logContainer.scrollHeight;  // Auto-scroll to the bottom#}
+{#        };#}
+{##}
+{#        eventSource.onerror = function (error) {#}
+{#            console.error("Error occurred while receiving the event stream:", error);#}
+{#            eventSource.close();#}
+{#        };#}
+{#    </script>#}
+</body>
+</html>

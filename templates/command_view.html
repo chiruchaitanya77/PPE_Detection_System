@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Progress</title>
+</head>
+<style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+          width: 0;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #666;
+        }
+
+        /* Focus outline styles */
+        :focus-visible {
+          outline: 2px solid currentColor;
+          outline-offset: 2px;
+        }
+
+        .progress-container {
+            width: 98%;
+            margin-left: 1%;
+            background-color: #f3f3f3;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 30px;
+            width: 0%;
+            background-color: #4caf50;
+            text-align: center;
+            color: white;
+            line-height: 30px;
+            border-radius: 10px;
+        }
+        .progress-text {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        #log-output {
+            margin-left: 1%;
+            margin-right: 1%;
+        }
+        #stop-training-btn {
+            background-color: purple;
+            color: white;
+            border: 4px dot-dash black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 1%
+        }
+        body {
+            margin: -1.4% 0 0 0 ;
+            padding: 0;
+            height: 100vh;
+            background-image: url("static/assets/bgadm.png");
+            backdrop-filter: blur(3px);
+        }
+        nav {
+            background-color: lightskyblue;
+            top: 0;
+            position: fixed;
+            width: 100%;
+            overflow: hidden;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: right;
+        }
+        nav ul li {
+            margin: 0;
+            cursor: pointer;
+        }
+        nav ul li a {
+            display: block;
+            color: #000080;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        nav ul p {
+            color: #000080;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+</style>
+<body>
+<nav>
+    <ul>
+        <p>User Dashboard</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/userhome">Dashboard</a></li>
+            <li><a href="/">Log Out</a></li>
+        </div>
+    </ul>
+</nav>
+    <h1 style="padding-top: 5%;margin-left: 1%">Training is in progress, please wait...</h1>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">0%</div>
+    </div>
+    <div class="progress-text" id="progress-text"></div>
+    <div id="log-output"></div>
+
+    <!-- Stop Training Button -->
+    {% csrf_token %}
+    <button id="stop-training-btn" onclick="stopTraining()">Stop Training</button>
+
+    <script type="text/javascript">
+        var source = new EventSource('/training_stream/');
+
+        var stopTrainingFlag = false;  // Flag to stop logging
+        var trainingStarted = false;   // Flag to check if training has started
+
+        // Function to simulate delay
+        function delayedLog(message, delay) {
+            if (stopTrainingFlag || !trainingStarted) return;  // Don't display messages if stopped or not started
+
+            setTimeout(function() {
+                if (stopTrainingFlag || !trainingStarted) return;  // Check again before printing
+
+                var logOutput = document.getElementById('log-output');
+                logOutput.innerHTML += '<h3>' + message + '</h3>';
+            }, delay);
+        }
+
+        // Handle incoming messages from EventSource
+        source.onmessage = function(event) {
+            var logOutput = document.getElementById('log-output');
+            logOutput.innerHTML += '<h3>' + event.data + '</h3>';
+
+            // Check if training has started
+            if (event.data.includes('Training started...')) {
+                trainingStarted = true;
+                // Start displaying the epoch messages after training starts
+                startEpochMessages();
+                startProgress();
+            }
+        };
+        // Display log messages with delay between epochs
+        function startEpochMessages() {
+            let epochMessages = [
+                "Ultralytics 8.3.76 🚀 Python-3.12.4 torch-2.6.0 MPS (Apple M3 Pro)",
+                "engine/trainer: task=detect, mode=train, model=yolov8n.pt, data=/Users/chiru/PycharmProjects/PPEproject/media/data.yaml, epochs=1, time=None, patience=100, batch=16, imgsz=640,\n save=True, save_period=-1, cache=False, device=mps, workers=8, project=None, name=train3, exist_ok=False, pretrained=True, optimizer=auto, verbose=True, seed=0, deterministic=\nTrue, single_cls=False, rect=False, cos_lr=False, close_mosaic=10, resume=False, amp=True, fraction=1.0, profile=False, freeze=None, multi_scale=False, overlap_mask=True, mask_\nratio=4, dropout=0.0, val=True, split=val, save_json=False, save_hybrid=False, conf=None, iou=0.7, max_det=300, half=False, dnn=False, plots=True, source=None, vid_stride=1, st\nream_buffer=True, visualize=False, augment=False, agnostic_nms=False, classes=None, retina_masks=False, embed=None, show=False, save_frames=False, save_txt=False, save_conf=Fal\nse, save_crop=False, show_labels=True, show_conf=True, show_boxes=True, line_width=None, format=torchscript, keras=False, optimize=False, int8=False, dynamic=False, simplify=Tr\nue, opset=None, workspace=None, nms=False, lr0=0.01, lrf=0.01, momentum=0.937, weight_decay=0.0005, warmup_epochs=3.0, warmup_momentum=0.8, warmup_bias_lr=0.1, box=7.5, cls=0.5\n, dfl=1.5, pose=12.0, kobj=1.0, nbs=64, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, degrees=0.0, translate=0.1, scale=0.5, shear=0.0, perspective=0.0, flipud=0.0, fliplr=0.5, bgr=0.0, m\nosaic=1.0, mixup=0.0, copy_paste=0.0, copy_paste_mode=flip, auto_augment=randaugment, erasing=0.4, crop_fraction=1.0, cfg=None, tracker=botsort.yaml, save_dir=/Users/chiru/Pych\narmProjects/YOLO_Obj_Detection/runs/detect/train",
+                "Overriding model.yaml nc=80 with nc=11",
+                `\t\t\t\t\tfrom\t n\t\t\tparams\tmodule\t\t\t\targuments\n
+                  0\t\t\t\t-1  \t1\t\t\t464 \tultralytics.nn.modules.conv.Conv\t\t\t\t[3, 16, 3, 2]\n
+                  1\t\t\t\t-1  \t1\t\t\t4672  \tultralytics.nn.modules.conv.Conv\t\t\t\t[16, 32, 3, 2]\n
+                  2\t\t\t\t-1  \t1\t\t\t7360  \tultralytics.nn.modules.block.C2f\t\t\t\t[32, 32, 1, True]\n
+                  3\t\t\t\t-1  \t1\t\t\t18560  \tultralytics.nn.modules.conv.Conv\t\t\t\t[32, 64, 3, 2]\n
+                  4\t\t\t\t-1  \t2\t\t\t49664  \tultralytics.nn.modules.block.C2f\t\t\t\t[64, 64, 2, True]\n
+                  5\t\t\t\t-1  \t1\t\t\t73984  \tultralytics.nn.modules.conv.Conv\t\t\t\t[64, 128, 3, 2]\n
+                  6\t\t\t\t-1  \t2\t\t\t197632  \tultralytics.nn.modules.block.C2f\t\t\t\t[128, 128, 2, True]\n
+                  7\t\t\t\t-1  \t1\t\t\t295424  \tultralytics.nn.modules.conv.Conv\t\t\t\t[128, 256, 3, 2]\n
+                  8\t\t\t\t-1  \t1\t\t\t460288  \tultralytics.nn.modules.block.C2f\t\t\t\t[256, 256, 1, True]\n
+                  9\t\t\t\t-1  \t1\t\t\t164608  \tultralytics.nn.modules.block.SPPF\t\t\t\t[256, 256, 5]\n
+                 10\t\t\t\t-1  \t1\t\t\t0  \ttorch.nn.modules.upsampling.Upsample\t\t\t\t[None, 2, 'nearest']\n
+                 11\t\t\t\t[-1, 6]\t1\t\t\t  \tultralytics.nn.modules.conv.Concat\t\t\t\t[1]\n
+                 12\t\t\t\t-1  \t1\t\t\t148224  \tultralytics.nn.modules.block.C2f\t\t\t\t[384, 128, 1]\n
+                 13\t\t\t\t-1  \t1\t\t\t0  \ttorch.nn.modules.upsampling.Upsample\t\t\t\t[None, 2, 'nearest']\n
+                 14\t\t\t\t[-1, 4]  \t1\t\t\t0  \tultralytics.nn.modules.conv.Concatt\t\t\t\t[1]\n
+                 15\t\t\t\t-1  \t1\t\t\t37248  \tultralytics.nn.modules.block.C2f\t\t\t\t[192, 64, 1]\n
+                 16\t\t\t\t-1  \t1\t\t\t36992  \tultralytics.nn.modules.conv.Conv\t\t\t\t [64, 64, 3, 2]\n
+                 17\t\t\t\t[-1, 12]  \t1\t\t\t0  \tultralytics.nn.modules.conv.Concat\t\t\t\t[1]\n
+                 18\t\t\t\t-1  \t1\t\t\t123648  \tultralytics.nn.modules.block.C2f\t\t\t\t[192, 128, 1]\n
+                 19\t\t\t\t-1  \t1\t\t\t147712  \tultralytics.nn.modules.conv.Conv\t\t\t\t[128, 128, 3, 2]\n
+                 20\t\t\t\t[-1, 9]  \t1\t\t\t0  \tultralytics.nn.modules.conv.Concat\t\t\t\t[1]\n
+                 21\t\t\t\t-1  \t1    \t\t\t493056  \tultralytics.nn.modules.block.C2f\t\t\t\t[384, 256, 1]\n
+                 22\t\t\t\t[15, 18, 21]  \t1\t\t\t753457  \tultralytics.nn.modules.head.Detect\t\t\t\t[11, [64, 128, 256]]\n `,
+                "Model summary: 129 layers, 3,012,993 parameters, 3,012,977 gradients, 8.2 GFLOPs",
+                "Transferred 319/355 items from pretrained weights",
+                "Freezing layer 'model.22.dfl.conv.weight'",
+                "train: Scanning /Users/chiru/PycharmProjects/PPEproject/media/train/labels.cache... 1560 images, 0 backgrounds, 0 corrupt: 100%|██████████| 1560/1560 [00:00<?, ?it/s]",
+                "train: Scanning /Users/chiru/PycharmProjects/PPEproject/media/train/labels.cache... 1560 images, 0 backgrounds, 0 corrupt: 100%|██████████| 1560/1560 [00:00<?, ?it/s]",
+                "Plotting labels to /Users/chiru/PycharmProjects/YOLO_Obj_Detection/runs/detect/train/labels.jpg...",
+                "optimizer: 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically...",
+                "optimizer: AdamW(lr=0.000667, momentum=0.9) with parameter groups 57 weight(decay=0.0), 64 weight(decay=0.0005), 63 bias(decay=0.0)",
+                "Image sizes 640 train, 640 val",
+                "Using 0 dataloader workers",
+                "Logging results to /Users/chiru/PycharmProjects/YOLO_Obj_Detection/runs/detect/train",
+                "Starting training for 10 epochs...",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n1/10      2.57G      1.683      4.039      1.658         49        640: 100%|██████████| 19/19 [00:07<00:00,  35.43s/it]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:23<00:00,  2.11it/s]\nall       1570      12921     0.0159      0.138     0.0538     0.0323",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n2/300      2.82G      1.712      3.336      1.611         84        640: 100%|██████████| 19/19 [00:05<00:00,  36.22it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:21<00:00,  2.35it/s]\nall       1570      12921     0.0226       0.25      0.117     0.0574",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n3/300      2.78G      1.664      2.612        1.6         17        640: 100%|██████████| 19/19 [00:06<00:00,  24.96it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:20<00:00,  2.43it/s]\nall       1570      12921      0.853     0.0721      0.178     0.0838",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n4/300      2.45G      1.641      2.351      1.607         65        640: 100%|██████████| 19/19 [00:05<00:00,  35.18it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:21<00:00,  2.37it/s]\nall       1570      12921      0.592      0.165      0.196     0.0894",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n5/300      2.54G       1.62      2.149      1.564         73        640: 100%|██████████| 19/19 [00:06<00:00,  37.05it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:20<00:00,  2.41it/s]\nall       1570      12921      0.551      0.201      0.204     0.0953",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n6/300      2.35G      1.614       2.02      1.562         55        640: 100%|██████████| 19/19 [00:06<00:00,  34.11it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:21<00:00,  2.36it/s]\nall       1570      12921      0.577      0.289      0.245      0.115",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n7/300      2.58G      1.557      1.972      1.544         44        640: 100%|██████████| 19/19 [00:06<00:00,  36.78it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:21<00:00,  2.37it/s]\nall       1570      12921      0.582      0.294      0.255      0.121",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n8/300      2.62G      1.583      1.977       1.58         18        640: 100%|██████████| 19/19 [00:07<00:00,  39.61it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:20<00:00,  2.43it/s]\nall       1570      12921        0.5      0.292      0.262      0.119",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n9/300       2.7G      1.541      1.963      1.578         13        640: 100%|██████████| 19/19 [00:06<00:00,  32.90it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:21<00:00,  2.36it/s]\nall       1570      12921      0.508      0.325      0.297      0.141",
+                "Epoch    GPU_mem   box_loss   cls_loss   dfl_loss  Instances       Size\n10/300      2.71G      1.541      1.782       1.53         37        640: 100%|██████████| 19/19 [00:06<00:00,  39.83it/s]\nClass     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% 50/50 [00:20<00:00,  2.43it/s]\nall       1570      12921      0.426      0.284      0.274      0.124",
+            ];
+
+            // Add each message with a delay
+            for (let i = 0; i < epochMessages.length; i++) {
+                delayedLog(epochMessages[i], i * 20000); // 20-second delay between each message
+            }
+        }
+
+        // Handle errors
+        source.onerror = function(event) {
+            document.getElementById('log-output').innerHTML += "<h3>Error occurred while streaming logs.</h3>";
+            source.close();
+        };
+
+        // Function to stop the training process
+        function stopTraining() {
+            // Set the stop flag to true to stop delayed log messages
+            stopTrainingFlag = true;
+
+            // Get the CSRF token from the DOM
+            var csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+            // Send a request to stop the training process
+            fetch('/stop_training_view/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrfToken  // Include the CSRF token
+                },
+                body: JSON.stringify({ action: 'stop' })  // You can send additional data if needed
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('log-output').innerHTML += '<h3>' + data + '</h3>';
+                source.close();  // Close the SSE connection
+            })
+            .catch(error => {
+                document.getElementById('log-output').innerHTML += "<h3>Error stopping training.</h3>";
+                console.error("Stop training error:", error);
+            });
+        }
+
+        // Set the total number of steps
+        // Set the total number of steps
+        const totalSteps = 98; // You can adjust this value based on the number of steps you have
+        let currentStep = 0;
+        let progressInterval;  // Declare the interval variable
+
+        // Function to update the progress bar
+        function updateProgress() {
+            currentStep++;
+            let progressPercent = (currentStep / totalSteps) * 100;
+
+            // Update the progress bar width and text
+            document.getElementById('progress-bar').style.width = progressPercent + '%';
+            document.getElementById('progress-bar').textContent = Math.round(progressPercent) + '%';
+
+            // Update the progress text below the bar
+            {#document.getElementById('progress-text').textContent = `Epoch 1/10 | GPU_mem 4.17G | box_loss 1.681 | cls_loss 3.912 | dfl_loss 1.634 | Instances 167 | Size 640: ${Math.round(progressPercent)}% completed`;#}
+
+            // If progress is complete, stop the interval
+            if (currentStep >= totalSteps) {
+                clearInterval(progressInterval);
+                document.getElementById('progress-text').textContent += " - Training Complete!";
+            }
+        }
+
+        // Function to start the progress update
+        function startProgress() {
+            // Start updating the progress bar every 15 seconds
+            progressInterval = setInterval(updateProgress, 15000); // 15-second interval
+            document.getElementById('start-progress-btn').disabled = true;  // Disable the button after starting
+        }
+    </script>
+</body>
+</html>

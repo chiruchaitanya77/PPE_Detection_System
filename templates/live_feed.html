@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Live-Camera Feeds</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 98vh;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .camera-feed {
+      position: relative;
+      width: 480px;
+      height: 360px;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+    .camera-feed img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .camera-title {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(168, 188, 212, 0.9);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0, 0.5);
+        text-align: center;
+        width: 300px;
+    }
+    .popup-content {
+        font-size: 18px;
+    }
+    #cameraSelect {
+        height: 40px;
+        width: 90%;
+        border-radius: 20px;
+        font-size: 18px;
+        padding-left: 10px;
+    }
+    .popup button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        background-color: royalblue;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .popup button:hover {
+        background-color: darkblue;
+    }
+    nav {
+        background-color: rgba(0,0,0,.5);
+        top: 0;
+        position: fixed;
+        width: 100%;
+        overflow: visible;
+    }
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        /*height: 8vh;*/
+        display: flex;
+        justify-content: right;
+    }
+    nav ul li {
+        margin: 0;
+    }
+    nav ul li a {
+        display: block;
+        color: #000080;
+        text-decoration: none;
+        padding: 14px 20px 18px;
+        text-align: center;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    nav ul li a:hover {
+        background-color:rgba(70,80,241,.6);
+    }
+    nav ul p {
+        color: #000080;
+        font-size: 25px;
+        font-style: oblique;
+        font-weight: 600;
+        margin: 10px 0 0 2vw;
+    }
+    footer {
+        text-align: center;
+        background-color: rgba(0,0,0,.5);
+        color: white;
+        position: fixed;
+        bottom: 0;
+        width: 100vw;
+    }
+  </style>
+</head>
+<body>
+<!-- Camera Selection Popup -->
+<div id="cameraPopup" class="popup">
+    <div class="popup-content">
+        <h3>Select Camera Source</h3>
+        <label for="cameraSelect"></label><select id="cameraSelect">
+            <option value="0">Default Webcam (Camera 0)</option>
+            <option value="1">External Camera (Camera 1)</option>
+            <option value="2">Other Camera (Camera 2)</option>
+        </select>
+        <br><br>
+        <button onclick="startLiveStream()">Start</button>
+        <button onclick="closePopup()">Cancel</button>
+    </div>
+</div>
+
+<nav>
+    <ul>
+        <p>User Dashboard</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/upload_video">Upload Video</a></li>
+            <li style="cursor: pointer"><a onclick="showCameraPopup()">Live Stream</a></li>
+            <li><a href="/userhome">Dashboard</a></li>
+            <li><a href="/">Log Out</a></li>
+        </div>
+    </ul>
+</nav>
+  <div class="container">
+    {% for camera in cameras %}
+    <div class="camera-feed">
+      <div class="camera-title">Camera {{ camera }}</div>
+      <img src="{% url 'stream-camera' camera %}" alt="Live Feed Camera {{ camera }}">
+    </div>
+    {% endfor %}
+  </div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: lightskyblue"> CSE Batch - 13</p>. All Rights Reserved.</footer>
+</body>
+<script>
+function showCameraPopup() {
+        document.getElementById("cameraPopup").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("cameraPopup").style.display = "none";
+    }
+
+    function startLiveStream() {
+        let selectedCamera = document.getElementById("cameraSelect").value;
+        window.location.href = "/live_camera/?camera=" + selectedCamera;
+        closePopup();
+    }
+</script>
+</html>

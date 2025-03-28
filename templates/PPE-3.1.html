@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!-- Performance optimization: Preload critical resources -->
+      <script src="https://cdn.tailwindcss.com"></script>
+      <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" as="style">
+
+      <!-- Core CSS -->
+      <script src="https://cdn.tailwindcss.com"></script>
+
+      <!-- Utilities and Components -->
+      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.3/cdn.min.js"></script>
+      <script defer src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.45.1/apexcharts.min.js"></script>
+
+      <!-- Optimized Font Loading -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+      <!-- Icons -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+      <!-- Base Styles -->
+      <style>
+      /* Webkit browsers like Chrome, Safari, newer Edge */
+      *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+          width: 0;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #666;
+        }
+
+        /* Focus outline styles */
+        :focus-visible {
+          outline: 2px solid currentColor;
+          outline-offset: 2px;
+        }
+
+        /* Print styles */
+        @media print {
+          .no-print {
+            display: none !important;
+          }
+
+          a[href]:after {
+            content: " (" attr(href) ")";
+          }
+        }
+      </style>
+     <title>PPE Detection</title>
+
+   </head>
+   <body class="text-gray-800 min-h-screen flex flex-col">
+
+<div id="nav">
+    <section id="navbar_hero" class="relative min-h-screen bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900">
+        <!-- Navigation -->
+            <nav class="fixed top-0 w-full bg-neutral-900/80 backdrop-blur-lg z-50">
+                <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center justify-between h-16">
+                        <!-- Logo -->
+                        <div class="flex-shrink-0">
+                            <a href="#" class="text-white font-bold text-xl">Workplace Safety</a>
+                        </div>
+
+                        <div class="hidden lg:flex lg:items-center lg:space-x-8">
+                            <a href="#project_overview" class="text-neutral-300 hover:text-white transition-colors duration-300">Overview</a>
+                            <a href="#demo_showcase" class="text-neutral-300 hover:text-white transition-colors duration-300">Demo</a>
+                            <a href="/userRegister" class="bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition-colors duration-300">Register</a>
+                            <a href="/userlogin" class="bg-blue-600 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition-colors duration-300">Login</a>
+                            <a href="/adminlogin" class="bg-purple-700 hover:bg-purple-500 text-white px-4 py-2 rounded-lg transition-colors duration-300">Admin</a>
+                            <a href="/exit" class="bg-neutral-700 hover:bg-neutral-600 text-white px-4 py-2 rounded-lg transition-colors duration-300">Exit</a>
+
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+        <!-- Hero Section -->
+        <div class="relative flex items-center min-h-screen">
+            <!-- Background Pattern -->
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.2),transparent), radial-gradient(circle_at_70%_70%,rgba(147,51,234,0.2),transparent)]"></div>
+
+            <!-- Content -->
+            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+                <div class="text-center">
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                        Workers Safety Equipment Detection in Construction Workplace<br />
+
+                        <span class="bg-gradient-to-r from-blue-400 to-purple-400 text-transparent bg-clip-text">Using Single Shot Detector</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-neutral-300 mb-8 max-w-3xl mx-auto">
+                        Smart PPE Detection for a Safer Workplace!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="overview">
+    <section id="project_overview" class="py-24 bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Project Overview</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto mb-8"></div>
+                <p class="text-lg text-neutral-300 max-w-3xl mx-auto">
+                    A comprehensive deep learning solution designed to enhance workplace safety through automated PPE detection and monitoring.
+                </p>
+            </div>
+
+            <!-- Bento Grid Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Vision Card -->
+                <div class="bg-neutral-800/50 border border-neutral-700 rounded-2xl p-6 hover:border-blue-500 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white ml-4">Vision</h3>
+                    </div>
+                    <p class="text-neutral-300">Revolutionizing workplace safety through real-time PPE detection and monitoring using advanced AI technology.</p>
+                </div>
+
+                <!-- Objective Card -->
+                <div class="bg-neutral-800/50 border border-neutral-700 rounded-2xl p-6 hover:border-blue-500 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-600/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white ml-4">Objective</h3>
+                    </div>
+                    <p class="text-neutral-300">Develop an accurate and efficient system for detecting personal protective equipment in real-time workplace environments.</p>
+                </div>
+
+                <!-- Impact Card -->
+                <div class="bg-neutral-800/50 border border-neutral-700 rounded-2xl p-6 hover:border-blue-500 transition-colors duration-300">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-600/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white ml-4">Impact</h3>
+                    </div>
+                    <p class="text-neutral-300">Enhance workplace safety compliance and reduce accidents through automated monitoring and early warning systems.</p>
+                </div>
+
+                <!-- Large Feature Card -->
+                <div class="md:col-span-2 lg:col-span-3 bg-neutral-800/50 border border-neutral-700 rounded-2xl p-8 hover:border-blue-500 transition-colors duration-300">
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-4">Key Features & Innovations</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-center text-neutral-300">
+                                    <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Real-time PPE detection using Single Shot Detector
+                                </li>
+                                <li class="flex items-center text-neutral-300">
+                                    <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    High accuracy in varying lighting conditions
+                                </li>
+                                <li class="flex items-center text-neutral-300">
+                                    <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Multi-class PPE detection capabilities
+                                </li>
+                                <li class="flex items-center text-neutral-300">
+                                    <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    Automated alert system for safety violations
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="bg-neutral-900/50 rounded-xl p-6 border border-neutral-700">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-neutral-300">Detection Accuracy</span>
+                                    <span class="text-blue-500 font-semibold">72%</span>
+                                </div>
+                                <div class="w-full bg-neutral-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 72%"></div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-neutral-300">Processing Speed</span>
+                                    <span class="text-blue-500 font-semibold">30 FPS</span>
+                                </div>
+                                <div class="w-full bg-neutral-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 80%"></div>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-neutral-300">Real-time Performance</span>
+                                    <span class="text-blue-500 font-semibold">76%</span>
+                                </div>
+                                <div class="w-full bg-neutral-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 76%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<div id="demo">
+    <section id="demo_showcase" class="py-16 bg-gradient-to-r from-purple-900 via-blue-900 to-purple-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-.5">Demo Showcase</h2>
+            </div>
+
+            <!-- Main Demo Display -->
+            <div>
+                <div class="bg-neutral-800/50 border border-neutral-700 rounded-2xl p-4 aspect-w-16 aspect-h-9">
+                        <div class="w-full h-full bg-neutral-800 rounded-xl flex items-center justify-center">
+                            <div class="text-neutral-400 text-center">
+                                {% load static %}
+                                <video class="w-100% h-100%"  autoplay loop muted playsinline>
+                                    <source src="{% static 'assets/demoVideo.mov' %}" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+       <!-- Footer Section -->
+        <footer class="text-center bg-neutral-900/80 backdrop-blur-lg z-50 text-white fixed bottom-0 w-full py-2">
+            &copy; 2025 PPE Detection System &commat;
+            <span class="inline-block text-blue-600"> CSE Batch - 13</span>.
+            All Rights Reserved.
+        </footer>
+    </section>
+</div>
+</body>
+</html>

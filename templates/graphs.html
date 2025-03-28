@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            padding: 0;
+            margin: 0;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 5%;
+        }
+        .gallery1 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(550px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            margin-bottom: 3%;
+        }
+        .gallery2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 2fr));
+            gap: 16px;
+            padding: 20px;
+        }
+        .gallery-item {
+            text-align: center;
+        }
+        .gallery1 img, .gallery2 img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 7px 5px rgba(0, 0, 0, 0.1);
+        }
+        .image-text {
+            margin-top: 8px;
+            color: #333;
+            font-size: 25px;
+        }
+        nav {
+            background-color: #4CAF50;
+            overflow: hidden;
+            top: 0;
+            position: fixed;
+            width: 100vw;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            /*height: 8vh;*/
+            display: flex;
+            justify-content: right;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        nav ul p {
+            color: #f4f4f4;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+        footer {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            scroll-behavior: auto;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <ul>
+        <p>Graphs Page</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/adminhome">Dashboard</a></li>
+            <li><a href="/exit">Exit</a></li>
+        </div>
+    </ul>
+</nav>
+    <h1>Training Graphs</h1>
+    <div class="gallery1" id="gallery1"></div>
+{#<div class="visme_d" data-title="Online Sign Up Form Template" data-url="pvo94jqe-untitled-project?fullPage=true" data-domain="forms" data-full-page="true" data-min-height="100vh" data-form-id="115413"></div>#}
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: mediumblue">CSE Batch - 13 </p> . All Rights Reserved.</footer>
+{#<script src="https://static-bundles.visme.co/forms/vismeforms-embed.js"></script>#}
+    <script>
+        // Array of images and corresponding text
+        const images1 = [
+            {
+                src: "../media/train2/F1_curve.png",
+                text: "F1 Confidence Curve"
+            },
+            {
+                src: "../media/train2/confusion_matrix_normalized.png",
+                text: "Confusion Matrix Normalized"
+            },
+            {
+                src: "../media/train2/P_curve.png",
+                text: "Precision-Confidence Curve"
+            },
+            {
+                src: "../media/train2/R_curve.png",
+                text: "Recall-Confidence Curve"
+            },
+        ];
+
+        // Function to dynamically create gallery items
+        const gallery1 = document.getElementById('gallery1');
+
+        images1.forEach(image => {
+            const galleryItem = document.createElement('div');
+            galleryItem.classList.add('gallery-item');
+
+            const imgElement = document.createElement('img');
+            imgElement.src = image.src;
+            imgElement.alt = image.text;
+
+            const textElement = document.createElement('h2');
+            textElement.classList.add('image-text');
+            textElement.textContent = image.text;
+
+            galleryItem.appendChild(imgElement);
+            galleryItem.appendChild(textElement);
+            gallery1.appendChild(galleryItem);
+        });
+    </script>
+</body>
+</html>

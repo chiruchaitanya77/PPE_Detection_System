@@ -1,0 +1,13 @@
+train: /Users/chiru/PycharmProjects/PPEproject/media/train/images
+val: /Users/chiru/PycharmProjects/PPEproject/media/valid/images
+test: /Users/chiru/PycharmProjects/PPEproject/media/test/images
+
+nc: 11
+names: ['0', '1', '10', '2', '3', '4', '5', '6', '7', '8', '9']
+#
+#roboflow:
+#  workspace: akash-tuyzc
+#  project: ppe-violation-classes
+#  version: 1
+#  license: CC BY 4.0
+url: https://universe.roboflow.com/akash-tuyzc/ppe-violation-classes/dataset/1

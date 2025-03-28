@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live Camera Detection</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <p>User Dashboard</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/upload_video">Upload Video</a></li>
+            <li><a href="/live_feed_page">Multi-Live Stream</a></li>
+            <li><a href="/userhome">Dashboard</a></li>
+            <li><a href="/">Log Out</a></li>
+        </div>
+    </ul>
+</nav>
+    <h2>Live Camera Feed</h2>
+    <div class="video-container">
+        <div class="camera-title">Camera {{ camera_index }}</div>
+        <img id="video-feed" src="{{ video_feed_url }}" alt="Live Stream">
+    </div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: lightskyblue"> CSE Batch - 13</p>. All Rights Reserved.</footer>
+<style>
+    body {
+            text-align: center;  /* Centers content */
+            background-color: #f4f4f4; /* Light gray background */
+            margin: 0;
+            padding: 0;
+        }
+        h2 {
+            color: #333;
+            margin-top: 12px;
+        }
+        .video-container {
+            display: flex;
+            position: absolute;
+            justify-content: center;
+            align-items: center;
+            height: 92%;
+        }
+        .camera-title {
+            position: absolute;
+            top:2%;
+            left: 5%;
+            font-size: 30px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        img {
+            max-width: 92%;  /* Scales down on smaller screens */
+            height: auto;    /* Keeps aspect ratio */
+            border: 3px solid black;
+            border-radius: 10px;
+        }
+        nav {
+            background-color: rgba(0,0,0,.5);
+            top: 0;
+            position: fixed;
+            width: 100%;
+            overflow: visible;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            /*height: 8vh;*/
+            display: flex;
+            justify-content: right;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            display: block;
+            color: #000080;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        nav ul p {
+            color: #000080;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+        footer {
+            text-align: center;
+            background-color: rgba(0,0,0,.5);
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+        }
+</style>
+</body>
+</html>

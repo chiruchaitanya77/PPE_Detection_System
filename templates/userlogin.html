@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" id="animate" >
+<head>
+    <meta charset="UTF-8">
+    <title>User Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <base href="./">
+</head>
+<body>
+<!-- Custom Alert Box -->
+    <div id="alertBox" class="custom-alert">
+        <p id="alertMessage"></p>
+        <button onclick="closeAlert()">OK</button>
+    </div>
+
+<nav>
+    <ul>
+        <p>User Login Page</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/">Home</a></li>
+            <li><a href="/exit">Exit</a></li>
+        </div>
+    </ul>
+</nav>
+<div class="one" id="animatedDiv">
+<header style="padding-top: 1vw">User Login</header>
+    <form action="/userlogin" method="POST">
+        {% csrf_token %}
+        <label for="studentname" style="margin-left: 14%">Enter UserName :</label>
+        <input type="text" id="studentname" name="studentname" aria-autocomplete="inline" placeholder="Enter your UserName" required style="height: 60%;">
+        <label for="password" >Enter your Password :</label>
+        <div style="position: relative;">
+            <input type="password" id="password" name="password" aria-autocomplete="inline" placeholder="Enter your Password" required>
+            <span class="password-toggle-icon" id="togglePassword">
+                <i class="fas fa-eye"></i>
+            </span>
+        </div>
+        <p Id="passErr" style="display: none; color: rgba(0,0,0,0%)">Entered Incorrect Password :</p>
+        <small id="passwordError" style="color: red; display: none;">Password must contain at least one uppercase letter, one number, one symbol, and atleast 8 characters long.</small>
+        <!-- Display Only Error Messages -->
+        <span style="width: 100%">
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.level_tag == 'error' %}
+                        <p style="color:red;">{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </span>
+        <p style="display: flex;flex-direction: row;width: fit-content;align-items: center;margin:0 0 -2% 30%; font-size: 17px; color: lightskyblue"><input type="checkbox" style="display: inline;">&nbsp;&nbsp;Remember&nbsp;me</p>
+        <p style="display: flex;flex-direction: row;width: fit-content;align-items: center;margin:0 0 -2% 10%"><a href="/" style="color: lightskyblue;text-decoration: none">Forgot password?</a></p>
+        <button id="b2" type="reset" value="">Cancel</button>
+        <button id="b1" type="submit" value="register">Login</button>
+    </form>
+<center><p style="margin-top: -1vh;color: white;padding-bottom: 30px">Dont have an account? <a href="/userRegister" style="color: orange;font-size: 18px;text-decoration: none">SignUp</a></p></center>
+</div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: mediumblue">CSE Batch - 13</p>. All Rights Reserved.</footer>
+<script>
+    // Alert Box
+    function showAlert(message, type) {
+            var alertBox = document.getElementById("alertBox");
+            var alertMessage = document.getElementById("alertMessage");
+            alertMessage.innerText = message;
+            alertBox.style.display = "block";
+            // Apply correct styling based on message type
+            alertBox.className = "custom-alert " + type;
+        }
+
+        function closeAlert() {
+            window.location.href = "/"
+        }
+
+        // Check if there's a Django message and show alert
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == "success" %}
+                    showAlert("{{ message }}", "success");
+                {% elif message.tags == "info" %}
+                    showAlert("{{ message }}", "info");
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+    // Password show toggle functionality
+    const passwordInput = document.getElementById('password');
+    const togglePasswordButton = document.getElementById('togglePassword');
+
+    togglePasswordButton.addEventListener('click', () => {
+        const passwordFieldType = passwordInput.getAttribute('type');
+        const icon = togglePasswordButton.querySelector('i');
+
+        if (passwordFieldType === 'password') {
+            passwordInput.setAttribute('type', 'text');
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.setAttribute('type', 'password');
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+</script>
+<style>
+    {% load static %}
+    /* Custom Alert Box */
+        .custom-alert {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 28px;
+            text-align: center;
+            z-index: 1000;
+        }
+        .custom-alert.success { background-color: #28a745; color: white; }  /* Green for success */
+        {#.custom-alert.info { background-color: rgba(18, 160, 177, 1); color: white; } /* Info blue */#}
+        .custom-alert.info { background-color: royalblue; color: white; } /* Info blue */
+        .custom-alert button {
+            margin-top: 10px;
+            background: white;
+            font-size: 20px;
+            color: black;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+    .password-toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: slategray;
+    }
+
+    .password-toggle-icon i {
+        font-size: 18px;
+        line-height: 1;
+        margin-left: -80%;
+        margin-bottom: 60%;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .password-toggle-icon i:hover {
+        color: #000;
+    }
+    .one {
+
+        margin-top: 5vw;
+        padding: 15px 0 20px 0;
+        margin-left: 30vw;
+        margin-right: 30vw;
+        background-color: rgba(220,220,220,.2);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+    }
+    header{
+        text-align: center;
+        color: white;
+        font-weight: bold;
+        font-size: 35px;
+        margin-bottom: 1vw;
+    }
+    nav {
+            background-color: rebeccapurple;
+            overflow: hidden;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            /*height: 8vh;*/
+            display: flex;
+            justify-content: right;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        nav ul p {
+            color: #f4f4f4;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+        body{
+        font-family: Arial, sans-serif;
+        background-image: url("static/assets/admbg.jpg");
+        background-size: cover;
+        margin: 0;
+        height: 100vh;
+    }
+    form input{
+        grid-column: 2;
+        box-sizing: border-box;
+    }
+    span {
+        text-align: center;
+        grid-column: span 2;
+    }
+    select {
+        padding: 8px 10px;
+        margin: 12px 0;
+        width: 17vw;
+        border-radius: 10px;
+        color: dimgrey;
+    }
+    label{
+        margin: 10% 0;
+        box-sizing: border-box;
+        color: white;
+        font-size: 20px;
+    }
+    form{
+        margin-top:20px ;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 500px;
+        margin: auto;
+        padding: 30px;
+    }
+    #b1 {
+        padding: 15px 38px 15px 38px ;
+    }
+    #b2 {
+        padding: 15px 32px;
+    }
+    #b1 ,#b2{
+        background-color: mediumpurple;
+        color: white;
+        border: darkcyan 2px solid;
+        border-radius: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+        cursor: pointer;
+        margin: auto;
+        margin-top: 20px;
+    }
+    #b1:hover, #b2:hover{
+        background-color: rebeccapurple;
+        color: white;
+    }
+    input{
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: cornflowerblue 1px solid;
+        border-radius: 10px;
+        width: 100%;
+    }
+    footer {
+            text-align: center;
+            background-color: mediumpurple;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+        }
+
+    @keyframes slideMe {
+    0% {
+        transform: translateX(-100vw); /* Start off-screen */
+        opacity: 0;
+        }
+        60% {
+            transform: translateX(0); /* Move to the center */
+            opacity: 0.5; /* Slight opacity for smooth transition */
+        }
+        100% {
+            transform: translateX(0); /* Stay in place */
+            opacity: 1; /* Full opacity */
+        }
+            }
+    @keyframes slideIn {
+        0% {
+            transform: translateX(-100vw); /* Start off-screen to the right */
+            opacity: 0;
+        }
+        60% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0); /* End in the center */
+        }
+    }
+
+    .alert.debug {
+    background-color: #f0f0f0; /* Light grey */
+    color: #333;
+    }
+    .alert.info {
+        background-color: #17a2b8; /* Info blue */
+        color: white;
+    }
+    .alert.success {
+        background-color: #28a745; /* Success green */
+        color: white;
+    }
+    .alert.warning {
+        background-color: #ffc107; /* Warning yellow */
+        color: black;
+    }
+    .alert.error {
+        background-color: #dc3545; /* Error red */
+        color: white;
+    }
+
+    {#messages.debug(request, "Debugging details")#}
+    {#messages.info(request, "Some informational message")#}
+    {#messages.success(request, "Action completed successfully!")#}
+    {#messages.warning(request, "Caution: Your session is about to expire")#}
+    {#messages.error(request, "An error occurred. Please try again")#}
+
+</style>
+</body>
+</html>

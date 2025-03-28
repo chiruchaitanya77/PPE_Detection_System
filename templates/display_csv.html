@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Model Metrics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        *::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+          width: 0;
+        }
+
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+          background: #888;
+          border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+          background: #666;
+        }
+
+        /* Focus outline styles */
+        :focus-visible {
+          outline: 2px solid currentColor;
+          outline-offset: 2px;
+        }
+
+        body{
+            font-family: Arial, sans-serif;
+            background-image: url("static/assets/bgadm.png");
+            margin: 0;
+            height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            grid-template-columns:  1fr 2fr;
+        }
+        #topbar {
+            background-color: #4CAF50;
+            overflow: hidden;
+            top: 0;
+            position: fixed;
+            width: 100vw;
+        }
+        #topbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: right;
+        }
+        #topbar ul li {
+            margin: 0;
+        }
+        #topbar ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #topbar ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        #topbar ul p {
+            color: #f4f4f4;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+        #csv-table {
+            margin-top: 52px ;
+        }
+    </style>
+</head>
+<body>
+<nav id="topbar">
+    <ul>
+        <p>Model-Metrics</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/adminhome">Dashboard</a></li>
+            <li><a href="/">Log Out</a></li>
+        </div>
+    </ul>
+</nav>
+    <table id="csv-table" border=".5">
+        <thead>
+            <tr>
+                {% if data %}
+                    {% for key in data.0.keys %}
+                        <th>{{ key }}</th>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    {% for value in row.values %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+

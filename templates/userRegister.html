@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" id="animate" >
+<head>
+    <meta charset="UTF-8">
+    <title>User SignUp</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <base href="./">
+</head>
+<body>
+<nav>
+    <ul>
+        <p>User SignUp Page</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/">Home</a></li>
+            <li><a href="/exit">Exit</a></li>
+        </div>
+    </ul>
+</nav>
+<div id="container">
+<div class="one">
+<header style="padding-top: 1vw">User SignUp</header>
+    <form action="/userRegister" method="POST">
+        {% csrf_token %}
+        <label for="studentname">Enter UserName :</label>
+        <input type="text" id="studentname" name="studentname" aria-autocomplete="inline" placeholder="Enter UserName" required>
+        <label for="email">Enter your Email Address :</label>
+        <input type="email" id="email" name="email" aria-autocomplete="inline" placeholder="Enter User Email Address" required>
+        <label for="mobile">Enter your Mobile Number :</label>
+        <input type="tel" id="mobile" name="mobile" aria-autocomplete="inline" placeholder="Enter User Mobile Number" required>
+        <p Id="mobileErr" style="display: none; color: rgba(0,0,0,0%)">Entered Incorrect Number :</p>
+        <small id="mobileError" style="color: red; display: none; border-color: white">Must start with 9, 8, 7, or 6 and have 10 digits.</small>
+        <label for="password">Enter your Password :</label>
+        <div style="position: relative;">
+            <input type="password" id="password" name="password" aria-autocomplete="inline" placeholder="Enter User Password" required>
+            <span class="password-toggle-icon" id="togglePassword">
+                <i class="fas fa-eye"></i>
+            </span>
+        </div>
+        <p Id="passErr" style="display: none; color: rgba(0,0,0,0%)">Entered Incorrect Password :</p>
+        <small id="passwordError" style="color: red; display: none;">Password must contain at least one uppercase letter, one number, one symbol, and atleast 8 characters long.</small>
+        <label for="status" style="display: none">Status :</label>
+            <select name="status" id="status" style="display: none">
+                <option value="Waiting" style="display: none">Waiting</option>
+            </select>
+            <span style="width: 100%">
+                {% if messages %}
+                    {% for message in messages %}
+                        <p style="color:red;">{{ message }}</p>
+                    {% endfor %}
+                {% endif %}
+            </span>
+        <button id="b2" type="reset" value="">Cancel</button>
+        <button id="b1" type="submit" value="register">SignUp</button>
+    </form>
+<center><p style="margin-top: -1vh;color: white;padding-bottom: 30px">Have an account? <a href="/userlogin" style="color: orange;font-size: 18px;text-decoration: none">Login</a></p></center>
+</div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: mediumblue">CSE Batch - 13</p>. All Rights Reserved.</footer>
+</div>
+
+<script>
+    // Mobile Number Validation
+    const mobileInput = document.getElementById('mobile');
+    const mobileError = document.getElementById('mobileError');
+    const mobileErr = document.getElementById('mobileErr')
+    mobileInput.addEventListener('input', () => {
+        const mobileValue = mobileInput.value;
+        const mobilePattern = /^[6-9]\d{9}$/; // Regex for valid mobile numbers
+
+        if (mobilePattern.test(mobileValue)) {
+            mobileErr.style.display = 'none';
+            mobileError.style.display = 'none'; // Hide error message
+            mobileInput.style.borderWidth = '2px';
+            mobileInput.style.borderColor = 'limegreen'; // Indicate success
+        } else {
+            mobileErr.style.display = 'inline';
+            mobileError.style.display = 'inline'; // Show error message
+            mobileInput.style.borderColor = 'red'; // Indicate error
+        }
+    });
+
+    // Password validation
+    const passwordInput = document.getElementById('password');
+    const passwordError = document.getElementById('passwordError');
+    const passErr = document.getElementById('passErr')
+
+    passwordInput.addEventListener('input', () => {
+        const passwordValue = passwordInput.value;
+        const passwordPattern = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])(?=.{8,})/;
+
+        if (passwordPattern.test(passwordValue)) {
+            passErr.style.display = 'none';
+            passwordError.style.display = 'none';
+            passwordInput.style.borderWidth = '2px';
+            passwordInput.style.borderColor = 'limegreen';
+        } else {
+            passErr.style.display = 'inline';
+            passwordError.style.display = 'inline';
+            passwordInput.style.borderColor = 'red';
+        }
+    });
+
+    // Password show toggle functionality
+    const togglePasswordButton = document.getElementById('togglePassword');
+
+    togglePasswordButton.addEventListener('click', () => {
+        const passwordFieldType = passwordInput.getAttribute('type');
+        const icon = togglePasswordButton.querySelector('i');
+
+        if (passwordFieldType === 'password') {
+            passwordInput.setAttribute('type', 'text');
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            passwordInput.setAttribute('type', 'password');
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    });
+
+</script>
+<style>
+    {% load static %}
+    .password-toggle-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: slategray;
+    }
+
+    .password-toggle-icon i {
+        font-size: 18px;
+        line-height: 1;
+        margin-left: -50%;
+        margin-bottom: 80%;
+        transition: color 0.3s ease-in-out;
+    }
+
+    .password-toggle-icon i:hover {
+        color: #000;
+    }
+    .one {
+        {#margin: 2vh 10vw 0 40vw;#}
+        margin: 10vh 28vw 0 28vw;
+        background-color: rgba(255, 255, 255, 0.2); /* Light white with 70% opacity */
+        backdrop-filter: blur(4px); /* Adds a blur effect to the background */
+        border-radius: 10px; /* Optional: Adds rounded corners */
+        min-height: fit-content;
+    }
+    header{
+        text-align: center;
+        color: white;
+        margin: 20px 0 0 0 ;
+        font-weight: bold;
+        font-size: 35px;
+        padding-bottom: 20px;
+    }
+    nav {
+        background-color: rebeccapurple;
+        overflow: hidden;
+    }
+    nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        /*height: 8vh;*/
+        display: flex;
+        justify-content: right;
+    }
+    nav ul li {
+        margin: 0;
+    }
+    nav ul li a {
+        display: block;
+        color: white;
+        text-decoration: none;
+        padding: 14px 20px 18px;
+        text-align: center;
+        font-weight: bold;
+        transition: background-color 0.3s;
+    }
+    nav ul li a:hover {
+        background-color: #575757;
+    }
+    nav ul p {
+        color: #f4f4f4;
+        font-size: 25px;
+        font-style: oblique;
+        font-weight: 600;
+        margin: 10px 0 0 2vw;
+    }
+    form input{
+        grid-column: 2;
+        box-sizing: border-box;
+        height: 50%;
+    }
+    span {
+        text-align: center;
+        grid-column: span 2;
+    }
+    input{
+        padding: 18px 12px 18px 12px;
+        margin: 6px;
+        box-sizing: border-box;
+        border: cornflowerblue 1px solid;
+        border-radius: 10px;
+        width: 100%;
+    }
+    select {
+        padding: 10px 12px 10px 12px;
+        margin: 12px 0 12px 8px;
+        box-sizing: border-box;
+        border: cornflowerblue 1px solid;
+        border-radius: 10px;
+        width: 100%;
+        color: gray;
+    }
+    label{
+        margin: 10px 0 0 10px;
+        box-sizing: border-box;
+        {#color: rebeccapurple;#}
+        color: white;
+        font-size: 20px;
+    }
+    form{
+        margin: 0 50px 20px 1px ;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        max-width: 900px;
+        padding: 20px 30px 30px 40px;
+    }
+    #b1 ,#b2{
+        background-color: mediumpurple;
+        color: white;
+        border: darkcyan 2px solid;
+        padding: 15px 32px;
+        border-radius: 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+        margin: auto;
+        margin-top: 5px;
+    }
+    #b1:hover, #b2:hover{
+        background-color: rebeccapurple;
+        color: white;
+    }
+
+    body {
+    font-family: Arial, sans-serif;
+    background-image: url("static/assets/urbgEdit.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    height: 98.2vh;
+    position: relative;
+}
+    body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4); /* Dark overlay with 50% opacity */
+    backdrop-filter: blur(2px);
+    z-index: -1; /* Keeps the overlay behind the content */
+}
+    footer {
+            text-align: center;
+            background-color: mediumpurple;
+            color: white;
+            position: fixed;
+            bottom:0;
+            width: 100vw;
+    }
+    #container {
+    display: flex;
+    flex-direction: column;
+    min-height: 94vh;
+
+    @keyframes slideMe {
+    0% {
+        transform: translateX(-100vw); /* Start off-screen */
+        opacity: 0;
+        }
+        60% {
+            transform: translateX(0); /* Move to the center */
+            opacity: 0.5; /* Slight opacity for smooth transition */
+        }
+        100% {
+            transform: translateX(0); /* Stay in place */
+            opacity: 1; /* Full opacity */
+        }
+            }
+    @keyframes slideIn {
+        0% {
+            transform: translateX(-100vw); /* Start off-screen to the right */
+            opacity: 0;
+        }
+        60% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        100% {
+            transform: translateX(0); /* End in the center */
+        }
+    }
+    }
+</style>
+</body>
+</html>

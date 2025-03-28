@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Upload</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <p>User Dashboard</p>
+        <div style="display: flex; margin-left: auto;">
+            <li style="cursor: pointer"><a onclick="showCameraPopup()">Live Stream</a></li>
+            <li><a href="/live_feed_page">Multi-Live Stream</a></li>
+            <li><a href="/userhome">Dashboard</a></li>
+            <li><a href="/">Log Out</a></li>
+        </div>
+    </ul>
+</nav>
+
+<!-- Camera Selection Popup -->
+<div id="cameraPopup" class="popup">
+    <div class="popup-content">
+        <h3>Select Camera Source</h3>
+        <label for="cameraSelect"></label><select id="cameraSelect">
+            <option value="0">Default Webcam (Camera 0)</option>
+            <option value="1">External Camera (Camera 1)</option>
+            <option value="2">Other Camera (Camera 2)</option>
+        </select>
+        <br><br>
+        <button onclick="startLiveStream()">Start</button>
+        <button onclick="closePopup()">Cancel</button>
+    </div>
+</div>
+
+<div class="container">
+    <header>
+        <h1>Upload Video for Detection</h1>
+        <p>Upload video to detect PPE with ease!</p>
+        {% if studentdetails %}
+            <p><strong style="color: greenyellow ">Alert mail will be sent to this Email:</strong> {{ studentdetails.email }}</p>
+        {% else %}
+            <p>No Profile Found</p>
+        {% endif %}
+    </header>
+
+    <main>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="video" class="upload-label">Choose a video to upload</label>
+            <input type="file" id="video" name="video" accept="video/*" required style="display: none">
+            <button type="submit" class="classify-btn">Upload & Detect</button>
+        </form>
+        <p id="message"></p>
+    </main>
+</div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: mediumblue"> CSE Batch - 13</p>. All Rights Reserved.</footer>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+        {#background: linear-gradient(135deg, #6a11cb, #2575fc, #00c6ff, #17d1aa);#}
+        backdrop-filter: blur(3px);
+        background-image: url("/static/assets/uhbg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        {#background-size: 400% 400%;#}
+        animation: gradientBG 10s ease infinite;
+        color: #fff;
+    }
+    nav {
+            background-color: lightskyblue;
+            top: 0;
+            position: fixed;
+            width: 100%;
+            overflow: visible;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            /*height: 8vh;*/
+            display: flex;
+            justify-content: right;
+        }
+        nav ul li {
+            margin: 0;
+        }
+        nav ul li a {
+            display: block;
+            color: #000080;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        nav ul p {
+            color: #000080;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+
+    @keyframes gradientBG {
+        0% {
+            background-position: 0 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0 50%;
+        }
+    }
+
+    .container {
+        text-align: center;
+        background: rgba(0, 0, 0, 0.8);
+        padding: 3rem;
+        border-radius: 20px;
+        width: 90%;
+        max-width: 600px;
+        box-shadow: 0 8px 35px rgba(0, 0, 0, 0.3);
+    }
+
+    header h1 {
+        font-size: 3rem;
+        margin-bottom: 0.7rem;
+        color: #a29bfe;
+    }
+
+    header p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #dfe6e9;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .upload-label {
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        background-color: #6c5ce7;
+        color: #fff;
+        padding: 0.6rem 1.8rem;
+        border-radius: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .upload-label:hover {
+        background-color: #00cec9;
+        color: #2d3436;
+    }
+
+    .upload-label:active {
+    background-color: #287233;
+    transform: scale(0.95);
+    }
+
+    .classify-btn {
+        font-size: 1rem;
+        background: #00b894;
+        color: #fff;
+        border: none;
+        padding: 0.8rem 1.8rem;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .classify-btn:hover {
+        background: #0984e3;
+    }
+
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255,255,255,.5);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0, 0.5);
+        text-align: center;
+        width: 300px;
+        color: black;
+    }
+    .popup-content {
+        font-size: 18px;
+    }
+    #cameraSelect {
+        height: 40px;
+        width: 90%;
+        border-radius: 20px;
+        font-size: 18px;
+        padding-left: 10px;
+    }
+    .popup button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        background-color: royalblue;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .popup button:hover {
+        background-color: darkblue;
+    }
+    footer {
+            text-align: center;
+            background-color: lightskyblue;
+            color: black;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+        }
+</style>
+<script>
+
+function showCameraPopup() {
+        document.getElementById("cameraPopup").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("cameraPopup").style.display = "none";
+    }
+
+    function startLiveStream() {
+        let selectedCamera = document.getElementById("cameraSelect").value;
+        window.location.href = "/live_camera/?camera=" + selectedCamera;
+        closePopup();
+    }
+</script>
+</body>
+</html>

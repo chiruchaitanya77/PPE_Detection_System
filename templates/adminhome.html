@@ -1,0 +1,532 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Home</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        body{
+            font-family: Arial, sans-serif;
+            background-image: url("static/assets/bgadm.png");
+            margin: 0;
+            height: 100vh;
+            min-height: 100vh;
+            display: flex;
+            grid-template-columns:  1fr 2fr;
+        }
+        #sidebar{
+            box-sizing: border-box;
+            height: 94vh;
+            width: 250px;
+            padding: 5px;
+            background-color: #4CAF50;
+            color: #e6e6ef;
+            border-right: 1px solid #e6e6ef;
+            position: sticky;
+            top: 6%;
+            align-self: start;
+            transition: 300ms ease-in-out, width 0.3s ease-in-out;
+            overflow: hidden;
+            text-wrap: nowrap;
+        }
+        #sidebar.close{
+          padding: 5px;
+          width: 55px;
+        }
+        #sidebar ul{
+          list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        #sidebar > ul > li:first-child{
+          display: flex;
+          justify-content: flex-end;
+          margin-bottom: 16px;
+          .logo{
+              padding: 0;
+            font-weight: 600;
+          }
+        }
+
+        #sidebar ul li.active a svg {
+            fill: yellow;
+        }
+        #sidebar ul li.active a {
+            color: yellow;
+            background-color: #42434a;
+            padding: 10px;
+        }
+
+        #sidebar a, #sidebar .dropdown-btn, #sidebar .logo{
+          border-radius: .5em;
+          padding: .85em;
+          text-decoration: none;
+          color: #e6e6ef;
+          display: flex;
+          align-items: center;
+          gap: 1em;
+        }
+        .dropdown-btn{
+          width: 100%;
+          text-align: left;
+          background: none;
+          border: none;
+          font: inherit;
+          cursor: pointer;
+        }
+        #sidebar svg{
+            flex-shrink: 0;
+            fill: #e6e6ef;
+        }
+        #sidebar a span, #sidebar .dropdown-btn span{
+          flex-grow: 1;
+        }
+        #sidebar a:hover, #sidebar .dropdown-btn:hover{
+          background-color: #222533;
+          padding: .85em;
+        }
+        #sidebar .sub-menu{
+          display: grid;
+          grid-template-rows: 0fr;
+          transition: 300ms ease-in-out;
+
+          > div{
+            overflow: hidden;
+          }
+        }
+        #sidebar .sub-menu.show{
+          grid-template-rows: 1fr;
+        }
+        .dropdown-btn svg{
+          transition: 200ms ease;
+        }
+        .rotate svg:last-child{
+          rotate: 180deg;
+        }
+        #sidebar .sub-menu a{
+          padding-left: 2em;
+        }
+        #toggle-btn{
+          margin-left: auto;
+          padding: 1em;
+          border: none;
+          border-radius: .5em;
+          background: none;
+          cursor: pointer;
+          svg{
+            transition: rotate 150ms ease;
+          }
+        }
+        #toggle-btn:hover{
+          background-color: #222533;
+        }
+        #tgl-btn{
+          padding: .5px;
+          border: none;
+          border-radius: .5em;
+          background: none;
+          cursor: pointer;
+          svg{
+            transition: rotate 150ms ease;
+          }
+        }
+        #tgl-btn:hover{
+          background-color: #222533;
+        }
+
+        main{
+          padding: min(30px, 7%);
+        }
+        main p{
+          color: #b0b3c1;
+          margin-top: 5px;
+          margin-bottom: 15px;
+        }
+        .container{
+          border: 1px solid #42434a;
+          border-radius: 1em;
+          margin-bottom: 20px;
+          padding: min(3em, 15%);
+
+          h2, p { margin-top: 1em }
+        }
+        .profile-popup {
+          display: none; /* Hidden by default */
+          position: absolute;
+          z-index: 10;
+          top: 20%;
+          left: 18%;
+          width: 430px;
+          background-color: #fff;
+          color: #333;
+            font-size: 20px;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .profile-content {
+            & h3 {
+                margin-top: 0;
+            }
+            & li {
+                padding: 8px;
+                list-style: none;
+                font-size: 18px;
+                margin-left: -10%;
+            &:nth-child(odd) {
+              background-color: #f0f0f0; /* Light gray */
+            }
+
+            &:nth-child(even) {
+              background-color: #d3d3d3; /* Gray */
+            }
+          }
+        }
+
+        button {
+          margin-top: 10px;
+          padding: 8px 16px;
+          background-color: #007BFF;
+          color: white;
+          border: none;
+          cursor: pointer;
+          border-radius: 4px;
+            font-size: 18px;
+        }
+
+        button:hover {
+          background-color: #0056b3;
+        }
+        #topbar {
+            background-color: #4CAF50;
+            overflow: hidden;
+            top: 0;
+            position: fixed;
+            width: 100vw;
+        }
+        #topbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: right;
+        }
+        #topbar ul li {
+            margin: 0;
+        }
+        #topbar ul li a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        #topbar ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        #topbar ul p {
+            color: #f4f4f4;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+        footer {
+            text-align: center;
+            background-color: #4CAF50;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            scroll-behavior: auto;
+        }
+        #tb {
+            padding:2px 40px 2px 40px;
+            font-weight: bold;
+            background-color: slategray;
+            color: white;
+            margin-left: 8px;
+        &:active {
+            font-size: 17.5px;
+        }
+        }
+        td {
+            text-align: center;
+        }
+        #content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 50vw;
+            margin: 5vh 18vw 0 0;
+            right: 0;
+            position: fixed;
+        }
+    </style>
+</head>
+<body>
+<div id="profilePopup" class="profile-popup">
+  <div class="profile-content">
+    <center><h3>Admin Profile</h3></center>
+    <p><strong>Username:</strong> admin <strong style="margin-left: 12%">Password:</strong> admin</p>
+    <p></p>
+    <p style="margin-bottom: -2%"><strong>Admin Functions:</strong></p>
+    <ul>
+      <li>Can Add User using Django Administrator Panel</li>
+      <li>Can Delete User</li>
+      <li>Can Activate/ Deactivate User Status</li>
+      <li>Can View User Details</li>
+      <li>Can View Logs</li>
+    </ul>
+    <center><button id="closePopupBtn">Close</button></center>
+  </div>
+</div>
+<nav id="sidebar">
+    <ul>
+      <li style="margin: 0; padding: 0">
+        <span class="logo">Admin Dashboard</span>
+        <button onclick=toggleSidebar() id="toggle-btn" style="margin: 0 0 0 .2vw;">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m313-480 155 156q11 11 11.5 27.5T468-268q-11 11-28 11t-28-11L228-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 27.5-11.5T468-692q11 11 11 28t-11 28L313-480Zm264 0 155 156q11 11 11.5 27.5T732-268q-11 11-28 11t-28-11L492-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 27.5-11.5T732-692q11 11 11 28t-11 28L577-480Z"/></svg>
+        </button>
+      </li>
+      <li class="active">
+        <a href="#">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M240-200h120v-200q0-17 11.5-28.5T400-440h160q17 0 28.5 11.5T600-400v200h120v-360L480-740 240-560v360Zm-80 0v-360q0-19 8.5-36t23.5-28l240-180q21-16 48-16t48 16l240 180q15 11 23.5 28t8.5 36v360q0 33-23.5 56.5T720-120H560q-17 0-28.5-11.5T520-160v-200h-80v200q0 17-11.5 28.5T400-120H240q-33 0-56.5-23.5T160-200Zm320-270Z"/></svg>
+          <span>Home</span>
+        </a>
+      </li>
+      <li>
+        <a href="/graphs/">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560q-17 0-28.5-11.5T520-640ZM120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160q-17 0-28.5-11.5T120-480Zm400 320v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560q-17 0-28.5-11.5T520-160Zm-400 0v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160q-17 0-28.5-11.5T120-160Zm80-360h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/></svg>
+          <span>Graphs</span>
+        </a>
+      </li>
+      <li>
+        <button onclick=toggleSubMenu(this) class="dropdown-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h207q16 0 30.5 6t25.5 17l57 57h320q33 0 56.5 23.5T880-640v400q0 33-23.5 56.5T800-160H160Zm0-80h640v-400H447l-80-80H160v480Zm0 0v-480 480Zm400-160v40q0 17 11.5 28.5T600-320q17 0 28.5-11.5T640-360v-40h40q17 0 28.5-11.5T720-440q0-17-11.5-28.5T680-480h-40v-40q0-17-11.5-28.5T600-560q-17 0-28.5 11.5T560-520v40h-40q-17 0-28.5 11.5T480-440q0 17 11.5 28.5T520-400h40Z"/></svg>
+          <span>Training Data</span>
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z"/></svg>
+        </button>
+        <ul class="sub-menu">
+          <div>
+            <li><a href="/datasets">DataSets used</a></li>
+            <li><a href="/display_csv">Model Metric</a></li>
+{#            <li><a href="#">Project</a></li>#}
+          </div>
+        </ul>
+      </li>
+
+{#      <li>#}
+{#        <button onclick=toggleSubMenu(this) class="dropdown-btn">#}
+{#          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m221-313 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-228q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm0-320 142-142q12-12 28-11.5t28 12.5q11 12 11 28t-11 28L250-548q-12 12-28 12t-28-12l-86-86q-11-11-11-28t11-28q11-11 28-11t28 11l57 57Zm339 353q-17 0-28.5-11.5T520-320q0-17 11.5-28.5T560-360h280q17 0 28.5 11.5T880-320q0 17-11.5 28.5T840-280H560Zm0-320q-17 0-28.5-11.5T520-640q0-17 11.5-28.5T560-680h280q17 0 28.5 11.5T880-640q0 17-11.5 28.5T840-600H560Z"/></svg>#}
+{#          <span>Todo-Lists</span>#}
+{#          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-361q-8 0-15-2.5t-13-8.5L268-556q-11-11-11-28t11-28q11-11 28-11t28 11l156 156 156-156q11-11 28-11t28 11q11 11 11 28t-11 28L508-372q-6 6-13 8.5t-15 2.5Z"/></svg>#}
+{#        </button>#}
+{#        <ul class="sub-menu">#}
+{#          <div>#}
+{#            <li><a href="#">Work</a></li>#}
+{#            <li><a href="#">Private</a></li>#}
+{#            <li><a href="#">Coding</a></li>#}
+{#            <li><a href="#">Analysis</a></li>#}
+{#            <li><a href="#">Review</a></li>#}
+{#          </div>#}
+{#        </ul>#}
+{#      </li>#}
+{#      <li>#}
+{#        <a href="#">#}
+{#          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-40q0-17 11.5-28.5T280-880q17 0 28.5 11.5T320-840v40h320v-40q0-17 11.5-28.5T680-880q17 0 28.5 11.5T720-840v40h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"/></svg>#}
+{#          <span>Calendar</span>#}
+{#        </a>#}
+{#      </li>#}
+      <li>
+        <a href="#" id="toggleProfileBtn">
+          <svg onclick=tglSidebar() xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-240v-32q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v32q0 33-23.5 56.5T720-160H240q-33 0-56.5-23.5T160-240Zm80 0h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"/></svg>
+          <span onclick=tglSidebar()>Profile</span>
+            <button onclick=tglSidebar() id="tgl-btn" style="margin: 0 0 0 .2vw;">
+          <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed"><path d="m313-480 155 156q11 11 11.5 27.5T468-268q-11 11-28 11t-28-11L228-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 27.5-11.5T468-692q11 11 11 28t-11 28L313-480Zm264 0 155 156q11 11 11.5 27.5T732-268q-11 11-28 11t-28-11L492-452q-6-6-8.5-13t-2.5-15q0-8 2.5-15t8.5-13l184-184q11-11 27.5-11.5T732-692q11 11 11 28t-11 28L577-480Z"/></svg>
+        </button>
+        </a>
+      </li>
+    </ul>
+  </nav>
+<nav id="topbar">
+    <ul>
+        <p>Admin Dashboard</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/">Log Out</a></li>
+            <li><a href="/exit">Exit</a></li>
+        </div>
+    </ul>
+</nav>
+<center>
+<div id="content">
+<h1 style="margin-top: 5%">Admin Dashboard</h1>
+<table border="3px" cellpadding="9px" style="backdrop-filter: blur(3px);">
+    <th>ID</th>
+    <th>USERNAME</th>
+    <th>EMAIL</th>
+    <th>MOBILE</th>
+    <th>PASSWORD</th>
+    <th>STATUS</th>
+    <th>TOOGLE STATUS</th>
+    {% if userdetails %}
+        {% for i in userdetails %}
+            <tr>{% if not userdetails %}
+                NO STUDENTS FOUND
+                {% endif %}
+            </tr>
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.studentname }}</td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.mobile }}</td>
+                <td>{{ i.password }}</td>
+                <td {% if i.status == "Waiting"%}
+                        style="background-color:#ff3333; color: floralwhite"
+                    {% endif %}
+                    {% if i.status == "Active"%}
+                        style="background-color:#00f963"
+                    {% endif %}
+                >{{ i.status }}</td>
+                <td style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 0">
+                    <button id="tb" onclick="tb('{{ i.id }}', '{{ i.status }}')">
+                        {% if i.status == "Active" %}
+                            Deactivate
+                        {% else %}
+                            Activate
+                        {% endif %}
+                    </button>
+                    <img src="/static/assets/biny.png"
+                         alt="Delete"
+                         width="60"
+                         height="60"
+                         onclick="redirectToDeleteUser('{{ i.id }}')"
+                         style="cursor: pointer;margin: 0; padding: 0;" />
+                    <td style="display: flex; flex-direction: row; align-items: center; justify-content: center; padding: 0">
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+    <tr>
+        <td colspan="10" style="text-align: center; color: red; font-weight: bold; letter-spacing: 1px;">NO STUDENTS FOUND</td>
+    </tr>
+{% endif %}
+</table>
+</div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: mediumblue">CSE Batch - 13 </p> . All Rights Reserved.</footer>
+</center>
+<script>
+        const toggleButton = document.getElementById('toggle-btn')
+        const tglBtn = document.getElementById('tgl-btn')
+        const sidebar = document.getElementById('sidebar')
+        const content = document.getElementById("content");
+        sidebar.classList.toggle('show')
+
+        function toggleSidebar(){
+          sidebar.classList.toggle('close')
+          toggleButton.classList.toggle('rotate')
+
+          closeAllSubMenus()
+        }
+        function tglSidebar(){
+          tglBtn.classList.toggle('rotate')
+        }
+
+        function toggleSubMenu(button){
+
+          if(!button.nextElementSibling.classList.contains('show')){
+            closeAllSubMenus()
+          }
+
+          button.nextElementSibling.classList.toggle('show')
+          button.classList.toggle('rotate')
+
+          if(sidebar.classList.contains('close')){
+            content.style.marginLeft = "55px";
+            sidebar.classList.toggle('close')
+            toggleButton.classList.toggle('rotate')
+          }
+        }
+
+        function closeAllSubMenus(){
+          Array.from(sidebar.getElementsByClassName('show')).forEach(ul => {
+            ul.classList.remove('show')
+            ul.previousElementSibling.classList.remove('rotate')
+          })
+        }
+        document.querySelectorAll("#sidebar ul li a").forEach(link => {
+    link.addEventListener("click", function() {
+        document.querySelectorAll("#sidebar ul li").forEach(item => item.classList.remove("active"));
+        this.parentElement.classList.add("active");
+    });
+});
+
+        function redirectToDeleteUser(id) {
+            window.location.href = `{% url 'deleteuser' %}?id=${id}`;
+    }
+
+
+
+    function toggleUserStatus(id, action) {
+        let button = document.getElementById("toggleBtn");
+        let newAction = action === "activate" ? "deactivate" : "activate";
+        let url = `/` + newAction + `user?id=` + id;
+
+        fetch(url, { method: 'GET' }) // Calls the existing Django views
+        .then(response => {
+            if (response.ok) {
+                // Toggle button text and class based on new state
+                if (newAction === "activate") {
+                    button.innerText = "Deactivate";
+                    button.classList.add("Active");
+                    button.classList.remove("Waiting");
+                } else {
+                    button.innerText = "Activate";
+                    button.classList.add("Waiting");
+                    button.classList.remove("Active");
+                }
+                button.setAttribute("onclick", `toggleUserStatus('${id}', '${newAction}')`);
+            } else {
+                alert("Failed to update status!");
+            }
+        })
+        .catch(error => {
+            console.error("Error toggling user status:", error);
+        });
+    }
+
+    function tb(id, status) {
+        const button = document.getElementById('tb');  // Ensure you're targeting the correct button
+        if (status === "Active") {
+            window.location.href = `{% url 'deactivateuser' %}?id=${id}`;
+        } else {
+            window.location.href = `{% url 'activateuser' %}?id=${id}`;
+        }
+    }
+
+    // Get the profile popup element and buttons
+    const profilePopup = document.getElementById("profilePopup");
+    const toggleProfileBtn = document.getElementById("toggleProfileBtn");
+    const closePopupBtn = document.getElementById("closePopupBtn");
+
+    // Toggle the profile popup when the profile button is clicked
+    toggleProfileBtn.addEventListener("click", function() {
+      if (profilePopup.style.display === "none" || profilePopup.style.display === "") {
+        profilePopup.style.display = "block"; // Show popup
+      } else {
+        profilePopup.style.display = "none"; // Hide popup
+      }
+    });
+
+    // Close the popup when the close button is clicked
+    closePopupBtn.addEventListener("click", function() {
+      profilePopup.style.display = "none"; // Hide popup
+    });
+    </script>
+</body>
+</html>

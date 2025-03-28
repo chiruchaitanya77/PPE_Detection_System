@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Video Detection</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <p>User Dashboard</p>
+        <div style="display: flex; margin-left: auto;">
+            <li><a href="/upload_video">Upload Video</a></li>
+            <li style="cursor: pointer"><a onclick="showCameraPopup()">Live Stream</a></li>
+            <li><a href="/live_feed_page">Multi-Live Stream</a></li>
+            <li><a href="/userhome">Dashboard</a></li>
+            <li><a href="/">Log Out</a></li>
+        </div>
+    </ul>
+</nav>
+    <div id="videos">
+        <section id="sec1">
+            <h2>Object Detection in Video</h2>
+            {% if video.video %}
+                <video class="custom-video" width="640" height="360" autoplay muted playsinline>
+                    <source src="{{ video.video.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            {% else %}
+                <p style="color: red;">No video found.</p>
+            {% endif %}
+        <p style="color: black">Video ID: {{ video.id }}</p>
+
+        </section>
+        <section id="sec2">
+            <h2>Processed Video Output</h2>
+            <img src="{% url 'video_feed' video.id %}" width="680" height="385" alt="Processed Video">
+            <p style="color: black">Video ID: {{ video.id }}</p>
+        </section>
+    </div>
+
+<!-- Camera Selection Popup -->
+<div id="cameraPopup" class="popup">
+    <div class="popup-content">
+        <h3>Select Camera Source</h3>
+        <label for="cameraSelect"></label><select id="cameraSelect">
+            <option value="0">Default Webcam (Camera 0)</option>
+            <option value="1">External Camera (Camera 1)</option>
+            <option value="2">Other Camera (Camera 2)</option>
+        </select>
+        <br><br>
+        <button onclick="startLiveStream()">Start</button>
+        <button onclick="closePopup()">Cancel</button>
+    </div>
+</div>
+<footer>&copy; 2025 PPE Detection System &commat; <p style="display: inline-block; color: mediumblue"> CSE Batch - 13</p>. All Rights Reserved.</footer>
+</body>
+
+<style>
+    {% load static %}
+    body {
+        margin: 0;
+        height: 100vh;
+        backdrop-filter: blur(3px);
+        background-image: url("/static/assets/uhbg.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    nav {
+            background-color: lightskyblue;
+            top: 0;
+            position: fixed;
+            width: 100%;
+            overflow: visible;
+        }
+        nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            /*height: 8vh;*/
+            display: flex;
+            justify-content: right;
+        }
+        nav ul li {
+            margin: 0;
+            cursor: pointer;
+        }
+        nav ul li a {
+            display: block;
+            color: #000080;
+            text-decoration: none;
+            padding: 14px 20px 18px;
+            text-align: center;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        nav ul li a:hover {
+            background-color:rgba(70,80,241,.6);
+        }
+        nav ul p {
+            color: #000080;
+            font-size: 25px;
+            font-style: oblique;
+            font-weight: 600;
+            margin: 10px 0 0 2vw;
+        }
+    #videos {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        height: 98vh;
+        margin: 0 .5% 0 .5%;
+        {#justify-content: center;#}
+
+    }
+    .custom-video {
+        width: 85%; /* Adjust percentage or use fixed px values */
+        max-width: 1000px; /* Limit max width */
+        height: auto; /* Keeps aspect ratio */
+    }
+    .popup {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(255,255,255,.5);
+        backdrop-filter: blur(10px);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0, 0.5);
+        text-align: center;
+        width: 300px;
+        color: black;
+    }
+    .popup-content {
+        font-size: 18px;
+    }
+    #cameraSelect {
+        height: 40px;
+        width: 90%;
+        border-radius: 20px;
+        font-size: 18px;
+        padding-left: 10px;
+    }
+    .popup button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        background-color: royalblue;
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .popup button:hover {
+        background-color: darkblue;
+    }
+    footer {
+            text-align: center;
+            background-color: lightskyblue;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+        }
+</style>
+<script>
+
+function showCameraPopup() {
+        document.getElementById("cameraPopup").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("cameraPopup").style.display = "none";
+    }
+
+    function startLiveStream() {
+        let selectedCamera = document.getElementById("cameraSelect").value;
+        window.location.href = "/live_camera/?camera=" + selectedCamera;
+        closePopup();
+    }
+</script>
+</html>

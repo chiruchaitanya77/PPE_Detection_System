@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+<div class="hide-scrollbar" style="height: 100vh;">
+    <div class="thank-you">
+        <h1>Thank You for Visiting!</h1>
+        <p>Empowering Workplace Safety for a Better Tomorrow</p>
+        <p>Developed with cutting-edge Deep Learning technology, our PPE Detection System ensures enhanced protection and reliability in construction workplace.</p>
+        <button onclick="window.location.href='/'">Back to Home</button>
+    </div>
+    <div id="Contact" class="container">
+        <div class="wrapper">
+          <div class="title">Your Feedback is Valuable</div>
+          <div class="desc" style="color: white">Leave a feedback to help us improve and better our model and website !</div>
+          <form id="contact-form" class="contact-form">
+            <div class="contact-title">&nbsp;</div>
+              <label for="from_email"></label>
+            <input type="email" id="from_email" name="from_email" placeholder="Enter Your Email" required class="contact-input" />
+              <label for="from_name"></label>
+            <input type="text" id="from_name" name="from_name" placeholder="Enter Your Name" required class="contact-input"/>
+              <label for="subject"></label>
+            <input type="text" id="subject" name="subject" placeholder="Subject" required class="contact-input"/>
+              <label for="message"></label>
+            <textarea id="message" name="message" placeholder="Message" rows="4" required class="contact-input-message"></textarea>
+            <button type="submit" id="contact-button" class="contact-button">Send</button>
+          </form>
+        </div>
+      </div>
+
+<footer id="footer" class="footer">
+        <!-- Top Border Gradient -->
+        <div class="top-border"></div>
+
+        <div class="container">
+            <!-- Main Footer Content -->
+            <div class="footer-content">
+                <!-- Brand Column -->
+                <div class="brand-column">
+                    <div><span class="brand-name">PPE Detection System</span></div>
+                    <p class="brand-description">Workplace Safety for a Better Tomorrow</p>
+
+                   <div class="social-links">
+                       {% load static %}
+                        <a href="https://www.youtube.com/@Swarnandhra_official" target="_blank" class="social-icon">
+                            <img src="{% static 'assets/yt.png' %}" alt="YouTube Icon" class="icon">
+                        </a>
+                        <a href="https://www.facebook.com/Swarnandhra/" target="_blank" class="social-icon">
+                            <img src="{% static 'assets/fb.png' %}" alt="FaceBook Icon" class="icon">
+                        </a>
+                        <a href="https://www.instagram.com/swarnandhra.college/?hl=en" target="_blank" class="social-icon">
+                            <img src="{% static 'assets/ig.webp' %}" alt="Instagram Icon" class="icon">
+                        </a>
+                        <a href="https://x.com/scet_official" target="_blank" class="social-icon">
+                            <img src="{% static 'assets/tw.webp' %}" alt="Twitter Icon" class="icon">
+                        </a>
+                    </div>
+
+                    <div class="policies">
+                        <a href="javascript:void(0);" onclick="showModal('privacy-mod')" class="link">Privacy Policy</a>
+                        <a href="javascript:void(0);" onclick="showModal('terms-mod')" class="link">Terms of Service</a>
+                        <a href="javascript:void(0);" onclick="showModal('access-mod')" class="link">Accessibility</a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div id="quick-links">
+                    <h3 class="section-title">Quick Links</h3>
+                    <ul class="quick-links">
+                        <li><a href="javascript:void(0);" onclick="showModal('mission-mod')" class="link">Our Mission</a></li>
+                        <li><a href="javascript:void(0);" onclick="showModal('vision-mod')" class="link">Our Vision</a></li>
+                        <li><a href="javascript:void(0);" onclick="showModal('events-mod')" class="link">Our Safety Events</a></li>
+                        <li><a href="javascript:void(0);" onclick="showModal('gallery-mod')" class="link">Events Gallery</a></li>
+                        <li><a href="javascript:void(0);" onclick="showModal('reviews-mod')" class="link">Reviews</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="section-title">Contact</h3>
+                    <ul class="contact-info">
+                        <li>SWARNANDHRA COLLEGE</li>
+                        <li>Narsapur</li>
+                        <li>W.G.Dist., AP State 534250</li>
+                        <li><a href="tel:+916300497377" class="link">+91-6300497377</a></li>
+                        <li><a href="mailto:chiruchaitanya77@gmail.com" class="link">swarnandhra_scet.com</a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter -->
+                <canvas id="confetti-canvas"></canvas>
+                    <div id = "sub">
+                        <h3>Stay Updated</h3>
+                        <p>Subscribe to our newsletter for future updates.</p>
+                        <form id="subscribe-form">
+                            <label for="subscribe-email"></label>
+                            <input type="email" placeholder="Your email address" id="subscribe-email" required>
+                            <button type="submit">Subscribe</button>
+                        </form>
+                        <!-- Modal for showing success or error message -->
+                        <div id="custom-modal" class="modal hidden">
+                            <div class="modal-content">
+                                <p id="modal-message"></p>
+                                <button id="close-modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </footer>
+            <div class="bottom-bar">
+                <div class="bottom-content">
+                    <div>© 2025 PPE Detection System &commat;<p style="display: inline; color: mediumblue"> CSE Batch - 13 </p>. All rights reserved.</div>
+                </div>
+            </div>
+            <div id="privacy-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>PRIVACY POLICY</h2>
+                    <h3 style="color: black">We are committed to protecting user data and ensuring the safety of personal information while advancing workplace safety with deep learning.</h3>
+                    <button onclick="closeModal('privacy-mod')">Close</button>
+                </div>
+            </div>
+            <div id="terms-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>TERMS OF SERVICE</h2>
+                    <h3 style="color: black">By using our PPE detection system, users agree to adhere to safety protocols and comply with our terms for optimal performance.</h3>
+                    <button onclick="closeModal('terms-mod')">Close</button>
+                </div>
+            </div>
+            <div id="access-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>ACCESSIBILITY</h2>
+                    <h3 style="color: black">Our system is designed to be inclusive, ensuring that all users, regardless of ability, can benefit from enhanced workplace safety using Single Shot Detector technology.</h3>
+                    <button onclick="closeModal('access-mod')">Close</button>
+                </div>
+            </div>
+            <div id="mission-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>OUR MISSION</h2>
+                    <h3 style="color: black">Our mission is to revolutionize workplace safety by leveraging deep learning technology to detect Personal Protective Equipment (PPE) accurately and efficiently. We strive to create safer work environments where accidents and injuries can be minimized through proactive safety measures.</h3>
+                    <button onclick="closeModal('mission-mod')">Close</button>
+                </div>
+            </div>
+            <div id="vision-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>OUR VISION</h2>
+                    <h3 style="color: black">Our vision is to become a global leader in workplace safety innovation by utilizing cutting-edge AI technologies like Single Shot Detector (SSD) models. We aim to set new standards for PPE detection and compliance, ensuring that every workplace is secure and employees can work with peace of mind.</h3>
+                    <button onclick="closeModal('vision-mod')">Close</button>
+                </div>
+            </div>
+            <div id="events-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>OUR SAFETY EVENTS</h2>
+                    <h3 style="color: black">We regularly organize safety awareness events and workshops to educate industries about the importance of PPE compliance. These events showcase the power of deep learning in enhancing safety protocols and how our PPE detection system can be integrated into existing workplace safety measures.</h3>
+                    <button onclick="closeModal('events-mod')">Close</button>
+                </div>
+            </div>
+            <div id="gallery-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>EVENTS GALLERY</h2>
+                    <h3 style="color: black">Our gallery highlights moments from our safety events, demonstrations, and workshops. Explore real-world applications of our PPE detection technology, see how businesses are adopting innovative safety measures, and witness our mission in action.</h3>
+                    <button onclick="closeModal('gallery-mod')">Close</button>
+                </div>
+            </div>
+            <div id="reviews-mod" class="mod hidden">
+                <div class="mod-content">
+                    <h2>REVIEWS</h2>
+                    <h3 style="color: black">"Implementing the PPE detection system has been a game-changer for our factory. The accuracy and real-time alerts have significantly reduced safety risks." <h3 style="color: royalblue;display: inline">– John D., Safety Manager</h3></h3>
+                    <h3 style="color: black">"The deep learning model behind this system is incredibly advanced. It's reassuring to know our employees are protected by such cutting-edge technology." <h3 style="color: royalblue;display: inline">– Sarah L., Operations Director</h3></h3>
+                    <h3 style="color: black">"Attending the safety workshop opened my eyes to the potential of AI-driven workplace safety. This is the future!" <h3 style="color: royalblue;display: inline">– Michael T., Workshop Attendee</h3></h3><br><br>
+                    <button onclick="closeModal('reviews-mod')">Close</button>
+                </div>
+            </div>
+    </div>
+</body>
+<script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const subscribeForm = document.getElementById('subscribe-form');
+        const emailInput = document.getElementById('subscribe-email');
+        const modal = document.getElementById('custom-modal');
+        const closeModalButton = document.getElementById('close-modal');
+        const modalMessage = document.getElementById('modal-message');
+        const confettiCanvas = document.getElementById('confetti-canvas');
+
+        // Initialize confetti using the canvas
+        const confettiInstance = confetti.create(confettiCanvas, {
+            resize: true, // Adjust canvas size with the window
+            useWorker: true // Use Web Worker for performance
+        });
+
+        // Function to trigger bright confetti
+        function triggerConfetti() {
+            confettiInstance({
+                particleCount: 200,
+                spread: 90,
+                origin: { x: 0.5, y: 0.5 },
+                colors: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'], // Bright colors
+            });
+        }
+
+        // Handle form submission
+        subscribeForm.addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent page reload on form submission
+
+            const email = emailInput.value.trim(); // Get the trimmed email
+
+            if (email === '') {
+                // Show error message in the modal
+                modalMessage.textContent = '❌ Please enter a valid email address!';
+                modalMessage.classList.add('text-red-500');
+                modalMessage.classList.remove('text-green-500');
+            } else {
+                // Show success message in the modal
+                modalMessage.textContent = `🎉 Subscribed to our newsletter successfully 🥳`;
+                modalMessage.classList.add('text-green-500');
+                modalMessage.classList.remove('text-red-500');
+                emailInput.value = ''; // Clear the email input after submission
+
+                // Trigger confetti effect
+                triggerConfetti();
+                }
+
+            // Show the modal
+            modal.classList.remove('hidden');
+        });
+
+        // Close the modal when the close button is clicked
+        closeModalButton.addEventListener('click', function () {
+            modal.classList.add('hidden');
+        });
+      });
+
+        document.addEventListener('DOMContentLoaded', () => {
+        // Initialize EmailJS
+          emailjs.init('XzaK1mx3iYusQomMO'); // Replace with your Public Key
+
+          const form = document.getElementById('contact-form');
+          const button = document.getElementById('contact-button');
+
+          form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            button.innerText = 'Sending...';
+            button.disabled = true;
+            button.classList.add('sent');
+
+            // Send the form using EmailJS
+            emailjs.sendForm('service_gymc422', 'template_adrw5rr', form)
+              .then(() => {
+                setTimeout(() => {
+                  button.innerText = 'Sent';
+                  button.disabled = false;
+                  button.classList.remove('sent');
+                  alert('Message Sent Successfully!');
+                  form.reset();
+                }, 50);
+              })
+              .catch((error) => {
+                console.error('EmailJS Error:', error);
+                alert('Failed to send message: ' + error.text);
+                button.innerText = 'Send';
+                button.disabled = false;
+                button.classList.remove('sent');
+              });
+          });
+        });
+
+        function exitApplication() {
+            window.location.href = 'exit.html';
+        }
+        function exploreSchool() {
+            alert('Explore our school management system for better learning and administration.');
+            window.location.href = '../index';
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = "flex";
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+    </script>
+    <style>
+        body {
+            background: linear-gradient(to left, #2a0d4d , #3d5fb3, #2a0d4d );
+            margin: 0;
+        }
+        .hide-scrollbar {
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Feedback Section Styling */
+        .container {
+            padding: 30px 30px 70px;
+            margin: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            background: linear-gradient(to left, #2a0d4d , #3d5fb3, #2a0d4d );
+        }
+        .wrapper {
+            margin-left: 30vw;
+            margin-right: 30vw;
+        }
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #80E27E;
+            margin-top: 40px;
+            margin-bottom: 15px;
+        }
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        .contact-input,
+        .contact-input-message {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .contact-input:focus,
+        .contact-input-message:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        .contact-button {
+            padding: 12px 60px;
+            margin: 10px 0 50px 0;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .contact-button:hover {
+            background-color: #388E3C;
+        }
+
+        /* Newsletter Subscription Styling */
+        #subscribe-form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        #subscribe-email {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        #subscribe-email:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+        #subscribe-form button {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #subscribe-form button:hover {
+            background-color: #388E3C;
+        }
+        h3 {
+            font-size: 24px;
+            color: wheat;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            color: white;
+            margin-bottom: 15px;
+        }
+
+
+
+        /* Mod container (hidden by default) */
+        .mod {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Modal content box */
+        .mod-content {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            width: 600px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Heading styling */
+        .mod-content h2 {
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: blue;
+        }
+
+        /* Button styling */
+        .mod-content button {
+            padding: 10px 20px;
+            background-color: mediumpurple;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .mod-content button:hover {
+            background-color: #45a049;
+        }
+
+        .mod.hidden {
+            display: none;
+        }
+
+        /* Styling for the modal and main elements */
+        .modal.hidden {
+            display: none;
+        }
+        .modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .modal-content {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            color: #fff;
+            width: 400px;
+        }
+        .modal-content p {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: white;
+        }
+        .modal-content button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .modal-content button:hover {
+            background-color: #388E3C;
+        }
+
+        /* Fullscreen canvas for confetti */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Exit Page */
+        .thank-you {
+            text-align: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+            max-width: 100vw;
+        }
+        .thank-you h1 {
+            font-size: 45px;
+            color: #80E27E;
+        }
+        .thank-you p {
+            font-size: 18px;
+            margin: 10px 0;
+            color: wheat;
+        }
+        .thank-you button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .thank-you button:hover {
+            background-color: #388E3C;
+        }
+
+        .social-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 1vw;
+        }
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border: 1px solid #3d3d3d;
+            border-radius: 50%;
+            transition: border-color,width,height 0.3s;
+        }
+        .social-icon:hover {
+            border-color: #4BB543;
+            width: 45px;
+            height: 45px;
+        }
+        .icon {
+            width: 24px;
+            height: 24px;
+        }
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        .quick-links,
+        .contact-info {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: wheat;
+        }
+        .quick-links li,
+        .contact-info li {
+            margin-bottom: 0.5rem;
+        }
+
+        .link {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .brand-column {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+        }
+        .brand-name {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: wheat;
+        }
+        .brand-description {
+            color: white;
+            font-size: 20px;
+        }
+        .link:hover {
+            color: #4BB543;
+        }
+        .bottom-bar {
+            text-align: center;
+            padding: 10px 20px;
+            background-color: royalblue;
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100vw;
+        }
+        .top-border {
+            height: 4px;
+            background: linear-gradient(to right, #1a1a1a, #4CAF50, #1a1a1a);
+        }
+
+        .container {
+            width: 95vw;
+            overflow: hidden;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, .24fr));
+            width: 100vw;
+            margin-left: 0;
+        }
+
+        .policies {
+            display: flex;
+            gap: 38px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @media screen and (max-width: 920px) {
+           #quick-links {
+               display: none;
+           }
+            .footer-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            width: 95vw;
+            }
+            .container {
+            width: 91vw;
+            overflow: hidden;
+            }
+            .contact-form {
+            margin-left: 9vw;
+            margin-right: 9vw;
+            }
+            }
+    </style>
